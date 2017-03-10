@@ -68,6 +68,7 @@ export class TranslateDirective implements AfterViewChecked, OnDestroy {
                 if(this.key) {
                     key = this.key;
                 } else {
+		    if (!node.textContent) node.textContent = node.data;
                     let content = node.textContent.trim();
                     if(content.length) {
                         // we want to use the content as a key, not the translation value
@@ -105,6 +106,7 @@ export class TranslateDirective implements AfterViewChecked, OnDestroy {
                 node.currentValue = isDefined(res) ? res : (node.originalContent || key);
                 // we replace in the original content to preserve spaces that we might have trimmed
                 node.textContent = this.key ? node.currentValue : node.originalContent.replace(key, node.currentValue);
+		if (node.data) node.data = node.textContent;
                 this._ref.markForCheck();
             };
 
